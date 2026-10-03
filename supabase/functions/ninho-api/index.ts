@@ -1,11 +1,12 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { inviteArt } from "./invite-art.ts";
 
 const url = Deno.env.get("SUPABASE_URL")!;
 const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const db = createClient(url, serviceKey, { auth: { persistSession: false } });
 const publishableKeys = JSON.parse(Deno.env.get("SUPABASE_PUBLISHABLE_KEYS") || "{}");
 const publishableKey = publishableKeys.default || Deno.env.get("SUPABASE_ANON_KEY") || "";
-const inviteArt = (await Deno.readTextFile(new URL("./invite-art.b64", import.meta.url))).trim();
+
 const enc = new TextEncoder();
 const cors = {
   "Access-Control-Allow-Origin": "*",
