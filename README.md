@@ -1,52 +1,39 @@
-# bichinT34
-repositório referente ao ainda projeto porém já em fase de deploy
-
 # Ninho — chá de bebê
 
-Mini aplicativo para organizar o chá de bebê e a chegada de Anya ou LEVI. Inclui painel, checklist original de 53 itens, lista de convidados, convites individuais por link, confirmação de presença, respostas por WhatsApp, CSV e configurações do evento.
+Aplicativo para organizar o chá e a chegada de Anya ou LEVI. Reúne o convite ilustrado em roxo, os detalhes do evento, uma lista de convidados com links individuais, confirmações de presença e checklist de enxoval.
 
-## Rodar
+## Recursos
 
-Requer Node.js 18 ou superior. Não precisa instalar dependências nem configurar Supabase ou Vercel.
+- Configurar o nome do bebê, data, horário, endereço, mensagem e link do mapa.
+- Cadastrar e editar convidados, pesquisar por nome/telefone e filtrar respostas.
+- Copiar um link exclusivo ou abrir uma mensagem pronta para envio pelo WhatsApp.
+- Receber RSVP por convidado, incluindo acompanhantes, sem exigir login de quem recebeu o convite.
+- Acompanhar totais de presença, exportar convidados para CSV e atualizar os 53 itens do checklist.
+
+## Produção
+
+- Frontend estático publicado no Vercel, projeto `bichint34`.
+- Banco de dados Supabase dedicado `ninho-cha-bebe`, região `sa-east-1` (São Paulo).
+- A Edge Function `ninho-api` valida a senha do painel e mantém os dados administrativos privados; os links de RSVP usam tokens aleatórios individuais.
+- A chave `sb_publishable_...` inserida pelo `build.js` é pública e tem privilégios anon restritos. A chave de servidor fica somente no runtime Supabase.
+- A senha administrativa não deve ser armazenada no repositório. A sessão expira após 8 horas e fica no `sessionStorage` do navegador.
+
+Para publicar, `npm run build` gera `public/` e injeta a URL da API e a chave publishable. O Vercel reescreve `/convite/:token` para a aplicação; os links enviados aos convidados abrem uma página pública renderizada pela Edge Function Supabase, para continuarem acessíveis mesmo com o painel protegido por SSO.
+
+## Desenvolvimento local
+
+Requer Node.js 18 ou superior, sem dependências adicionais:
 
 ```bash
 npm start
 ```
 
-Abra `http://localhost:4173`. O backend HTTP usa apenas módulos nativos do Node e salva os dados em `data/ninho.json`. Esse arquivo é criado automaticamente e não deve ser compartilhado publicamente: contém nomes e telefones de convidados.
+Abra `http://localhost:4173`. Nesse modo, o servidor local salva os dados em `data/ninho.json`; esse arquivo é ignorado pelo Git. `npm run build` prepara o artefato de produção ligado ao Supabase.
 
-## Funcionalidades
+## Rotas da API
 
-- Configurar o bebê (Anya/menina ou LEVI/menino), data, hora, endereço, mensagem e link do mapa.
-- Criar/editar convidados; pesquisar e filtrar por resposta.
-- Gerar link exclusivo de convite e abrir uma mensagem pronta no WhatsApp.
-- Receber resposta de presença e número de acompanhantes pela página `/convite/:token`.
-- Ver totais de confirmados e pendentes e exportar os convidados em CSV.
-- Marcar os itens do checklist como “Tenho” ou “Comprar”; o progresso fica salvo no backend local.
-
-## Limite do modo local
-
-O convite pode ser testado na mesma rede executando `HOST=0.0.0.0 npm start` e usando o endereço IP do computador no link. Para compartilhar com pessoas fora da rede, será necessário hospedar o servidor e usar HTTPS. Antes de publicar, deve-se acrescentar login à área administrativa. O projeto não envia mensagens automaticamente: o botão WhatsApp abre o aplicativo com o texto pronto para a pessoa responsável revisar e enviar.
-
-## Prévia Vercel
-
-`npm run build` prepara uma versão estática em `public/`. Sem banco persistente conectado, essa prévia salva alterações no navegador em uso; convites e confirmações não sincronizam entre aparelhos. A API local continua disponível por `npm start`. Para liberar convites reais, conecte uma base de dados compartilhada e proteja o painel administrativo antes da publicação pública.
-
-## API principal
-
-- `GET /api/data`
-- `PUT /api/event`
-- `POST /api/guests` e `PATCH /api/guests/:id`
-- `GET /api/invite/:token`
-- `POST /api/rsvp/:token`
-- `PATCH /api/checklist/:id`
-
-
-Vercel deployment preview is configured for this Ninho front end.
-
-
-Este repositório publica a prévia pelo projeto Vercel bichint34.
-
-A identidade visual inicial usa roxo e Anya fica como nome padrão; LEVI permanece disponível nas configurações.
-
-A arte original do convite de Anya é integrada ao site; os campos visíveis de data e local usam as configurações do evento.
+- `GET /api/data` — detalhes do evento, convidados e checklist (painel autenticado).
+- `PUT /api/event` — atualiza detalhes do evento (painel autenticado).
+- `POST /api/guests` e `PATCH /api/guests/:id` — cadastro/edição (painel autenticado).
+- `GET /api/invite/:token` e `POST /api/rsvp/:token` — convite individual e RSVP público.
+- `PATCH /api/checklist/:id` — atualiza o checklist (painel autenticado).
