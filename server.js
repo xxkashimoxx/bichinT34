@@ -42,7 +42,7 @@ const server=http.createServer(async(req,res)=>{
  const check=p.match(/^\/api\/checklist\/([\w-]+)$/);
  if(check&&req.method==='PATCH'){try{const b=await body(req),item=db.checklist.find(x=>x.id===check[1]);if(!item)return error(res,404,'Item não encontrado');if(!['','have','missing'].includes(b.status))return error(res,400,'Status inválido');item.status=b.status;writeDb();return send(res,200,{item})}catch(e){return error(res,400,e.message)}}
  if(p.startsWith('/api/'))return error(res,404,'Rota não encontrada');
- if(req.method==='GET'){if(p==='/'||p.startsWith('/convite/'))return staticFile(res,path.join(ROOT,'index.html'));if(p==='/assets/convite-anya.webp'){try{const image=Buffer.from(fs.readFileSync(path.join(ROOT,'assets','convite-anya.webp.b64'),'utf8').trim(),'base64');res.writeHead(200,{'Content-Type':'image/webp','Cache-Control':'public, max-age=86400'});return res.end(image)}catch{return error(res,404,'Imagem não encontrada')}}const name=path.basename(p);if(['app.js','styles.css'].includes(name))return staticFile(res,path.join(ROOT,name));return error(res,404,'Página não encontrada')}
+ if(req.method==='GET'){if(p==='/'||p.startsWith('/convite/'))return staticFile(res,path.join(ROOT,'index.html'));if(['/assets/convite-anya.webp','/assets/logo-cegonha.webp'].includes(p)){try{const image=Buffer.from(fs.readFileSync(path.join(ROOT,'assets',path.basename(p)+'.b64'),'utf8').trim(),'base64');res.writeHead(200,{'Content-Type':'image/webp','Cache-Control':'public, max-age=86400'});return res.end(image)}catch{return error(res,404,'Imagem não encontrada')}}const name=path.basename(p);if(['app.js','styles.css'].includes(name))return staticFile(res,path.join(ROOT,name));return error(res,404,'Página não encontrada')}
  error(res,405,'Método não permitido');
 });
-server.listen(PORT,HOST,()=>console.log(`Ninho ativo em http://${HOST}:${PORT}`));
+server.listen(PORT,HOST,()=>console.log(`Lá vem cegonha ativo em http://${HOST}:${PORT}`));
