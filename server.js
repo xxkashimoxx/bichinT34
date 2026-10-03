@@ -19,7 +19,7 @@ const catalog=[
  [3,'Extras','✧',[['Saco de dormir','1–2'],['Roupa especial','1'],['Bomba tira-leite','1'],['Potes para leite','2–4'],['Mamadeiras','0–2'],['Chupetas','Somente se optar'],['Tapete de atividades','1, mais adiante'],['Móbile','1'],['Mais roupas P/M','Conforme crescimento']]]
 ];
 function slug(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')}
-function seed(){let n=0;return {event:{baby:'LEVI',date:'',time:'',address:'',message:'Venha celebrar conosco!',mapUrl:''},guests:[],checklist:catalog.flatMap(([priority,category,icon,items])=>items.map(([name,quantity])=>({id:`${priority}-${slug(category)}-${slug(name)}-${++n}`,priority,category,icon,name,quantity,status:''})))}}
+function seed(){let n=0;return {event:{baby:'Anya',date:'',time:'',address:'',message:'Venha celebrar conosco!',mapUrl:''},guests:[],checklist:catalog.flatMap(([priority,category,icon,items])=>items.map(([name,quantity])=>({id:`${priority}-${slug(category)}-${slug(name)}-${++n}`,priority,category,icon,name,quantity,status:''})))}}
 fs.mkdirSync(DATA_DIR,{recursive:true});
 let db;try{db=JSON.parse(fs.readFileSync(DB,'utf8'))}catch{db=seed();writeDb()}
 function writeDb(){const temp=DB+'.tmp';fs.writeFileSync(temp,JSON.stringify(db,null,2));fs.renameSync(temp,DB)}
