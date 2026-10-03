@@ -1,0 +1,8 @@
+{
+  "name": "ninho-cha-bebe",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Planejamento local do chá de bebê, lista de convidados, convite digital e checklist de enxoval.",
+  "scripts": { "start": "node server.js", "build": "node build.js" },
+  "engines": { "node": ">=18" }
+}

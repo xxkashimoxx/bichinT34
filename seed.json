@@ -1,0 +1,490 @@
+{
+  "event": {
+    "baby": "LEVI",
+    "date": "",
+    "time": "",
+    "address": "",
+    "message": "Venha celebrar conosco!",
+    "mapUrl": ""
+  },
+  "guests": [],
+  "checklist": [
+    {
+      "id": "1-roupinhas-body-manga-curta-1",
+      "priority": 1,
+      "category": "Roupinhas",
+      "icon": "♧",
+      "name": "Body manga curta",
+      "quantity": "6",
+      "status": ""
+    },
+    {
+      "id": "1-roupinhas-body-manga-longa-2",
+      "priority": 1,
+      "category": "Roupinhas",
+      "icon": "♧",
+      "name": "Body manga longa",
+      "quantity": "6",
+      "status": ""
+    },
+    {
+      "id": "1-roupinhas-calca-mijao-3",
+      "priority": 1,
+      "category": "Roupinhas",
+      "icon": "♧",
+      "name": "Calça/mijão",
+      "quantity": "6",
+      "status": ""
+    },
+    {
+      "id": "1-roupinhas-macacao-4",
+      "priority": 1,
+      "category": "Roupinhas",
+      "icon": "♧",
+      "name": "Macacão",
+      "quantity": "6",
+      "status": ""
+    },
+    {
+      "id": "1-roupinhas-casaquinho-5",
+      "priority": 1,
+      "category": "Roupinhas",
+      "icon": "♧",
+      "name": "Casaquinho",
+      "quantity": "2",
+      "status": ""
+    },
+    {
+      "id": "1-roupinhas-meias-6",
+      "priority": 1,
+      "category": "Roupinhas",
+      "icon": "♧",
+      "name": "Meias",
+      "quantity": "4 pares",
+      "status": ""
+    },
+    {
+      "id": "1-roupinhas-touca-7",
+      "priority": 1,
+      "category": "Roupinhas",
+      "icon": "♧",
+      "name": "Touca",
+      "quantity": "2",
+      "status": ""
+    },
+    {
+      "id": "1-roupinhas-roupa-para-sair-8",
+      "priority": 1,
+      "category": "Roupinhas",
+      "icon": "♧",
+      "name": "Roupa para sair",
+      "quantity": "2",
+      "status": ""
+    },
+    {
+      "id": "1-sono-berco-mini-berco-9",
+      "priority": 1,
+      "category": "Sono",
+      "icon": "☾",
+      "name": "Berço/mini berço",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "1-sono-colchao-firme-adequado-10",
+      "priority": 1,
+      "category": "Sono",
+      "icon": "☾",
+      "name": "Colchão firme adequado",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "1-sono-lencol-com-elastico-11",
+      "priority": 1,
+      "category": "Sono",
+      "icon": "☾",
+      "name": "Lençol com elástico",
+      "quantity": "3",
+      "status": ""
+    },
+    {
+      "id": "1-sono-manta-leve-12",
+      "priority": 1,
+      "category": "Sono",
+      "icon": "☾",
+      "name": "Manta leve",
+      "quantity": "2",
+      "status": ""
+    },
+    {
+      "id": "1-sono-cueiro-13",
+      "priority": 1,
+      "category": "Sono",
+      "icon": "☾",
+      "name": "Cueiro",
+      "quantity": "2–3",
+      "status": ""
+    },
+    {
+      "id": "1-banho-e-higiene-banheira-simples-14",
+      "priority": 1,
+      "category": "Banho e higiene",
+      "icon": "♨",
+      "name": "Banheira simples",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "1-banho-e-higiene-toalha-com-capuz-15",
+      "priority": 1,
+      "category": "Banho e higiene",
+      "icon": "♨",
+      "name": "Toalha com capuz",
+      "quantity": "2–3",
+      "status": ""
+    },
+    {
+      "id": "1-banho-e-higiene-toalha-fralda-16",
+      "priority": 1,
+      "category": "Banho e higiene",
+      "icon": "♨",
+      "name": "Toalha fralda",
+      "quantity": "2",
+      "status": ""
+    },
+    {
+      "id": "1-banho-e-higiene-trocador-17",
+      "priority": 1,
+      "category": "Banho e higiene",
+      "icon": "♨",
+      "name": "Trocador",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "1-banho-e-higiene-fralda-de-boca-18",
+      "priority": 1,
+      "category": "Banho e higiene",
+      "icon": "♨",
+      "name": "Fralda de boca",
+      "quantity": "6",
+      "status": ""
+    },
+    {
+      "id": "1-banho-e-higiene-fralda-de-ombro-19",
+      "priority": 1,
+      "category": "Banho e higiene",
+      "icon": "♨",
+      "name": "Fralda de ombro",
+      "quantity": "3",
+      "status": ""
+    },
+    {
+      "id": "1-banho-e-higiene-sabonete-liquido-infantil-20",
+      "priority": 1,
+      "category": "Banho e higiene",
+      "icon": "♨",
+      "name": "Sabonete líquido infantil",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "1-banho-e-higiene-escova-pente-21",
+      "priority": 1,
+      "category": "Banho e higiene",
+      "icon": "♨",
+      "name": "Escova/pente",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "1-banho-e-higiene-cortador-lixa-de-unha-22",
+      "priority": 1,
+      "category": "Banho e higiene",
+      "icon": "♨",
+      "name": "Cortador/lixa de unha",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "1-banho-e-higiene-termometro-23",
+      "priority": 1,
+      "category": "Banho e higiene",
+      "icon": "♨",
+      "name": "Termômetro",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "1-banho-e-higiene-algodao-24",
+      "priority": 1,
+      "category": "Banho e higiene",
+      "icon": "♨",
+      "name": "Algodão",
+      "quantity": "1 pacote",
+      "status": ""
+    },
+    {
+      "id": "1-banho-e-higiene-pomada-para-assadura-25",
+      "priority": 1,
+      "category": "Banho e higiene",
+      "icon": "♨",
+      "name": "Pomada para assadura",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "1-fraldas-fralda-p-26",
+      "priority": 1,
+      "category": "Fraldas",
+      "icon": "▱",
+      "name": "Fralda P",
+      "quantity": "2–3 pacotes",
+      "status": ""
+    },
+    {
+      "id": "1-passeio-e-seguranca-bebe-conforto-cadeirinha-adequada-27",
+      "priority": 1,
+      "category": "Passeio e segurança",
+      "icon": "⌂",
+      "name": "Bebê-conforto/cadeirinha adequada",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "1-passeio-e-seguranca-carrinho-28",
+      "priority": 1,
+      "category": "Passeio e segurança",
+      "icon": "⌂",
+      "name": "Carrinho",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "2-fraldas-fralda-rn-29",
+      "priority": 2,
+      "category": "Fraldas",
+      "icon": "▱",
+      "name": "Fralda RN",
+      "quantity": "1 pacote",
+      "status": ""
+    },
+    {
+      "id": "2-fraldas-fralda-m-30",
+      "priority": 2,
+      "category": "Fraldas",
+      "icon": "▱",
+      "name": "Fralda M",
+      "quantity": "2–3 pacotes",
+      "status": ""
+    },
+    {
+      "id": "2-fraldas-trocador-descartavel-31",
+      "priority": 2,
+      "category": "Fraldas",
+      "icon": "▱",
+      "name": "Trocador descartável",
+      "quantity": "1 pacote",
+      "status": ""
+    },
+    {
+      "id": "2-amamentacao-sutia-de-amamentacao-32",
+      "priority": 2,
+      "category": "Amamentação",
+      "icon": "♡",
+      "name": "Sutiã de amamentação",
+      "quantity": "2–3",
+      "status": ""
+    },
+    {
+      "id": "2-amamentacao-absorvente-para-seios-33",
+      "priority": 2,
+      "category": "Amamentação",
+      "icon": "♡",
+      "name": "Absorvente para seios",
+      "quantity": "1 pacote",
+      "status": ""
+    },
+    {
+      "id": "2-amamentacao-almofada-de-amamentacao-34",
+      "priority": 2,
+      "category": "Amamentação",
+      "icon": "♡",
+      "name": "Almofada de amamentação",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "2-amamentacao-paninhos-de-boca-35",
+      "priority": 2,
+      "category": "Amamentação",
+      "icon": "♡",
+      "name": "Paninhos de boca",
+      "quantity": "6",
+      "status": ""
+    },
+    {
+      "id": "2-passeio-e-organizacao-bolsa-mochila-maternidade-36",
+      "priority": 2,
+      "category": "Passeio e organização",
+      "icon": "⌂",
+      "name": "Bolsa/mochila maternidade",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "2-passeio-e-organizacao-trocador-portatil-37",
+      "priority": 2,
+      "category": "Passeio e organização",
+      "icon": "⌂",
+      "name": "Trocador portátil",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "2-passeio-e-organizacao-manta-extra-38",
+      "priority": 2,
+      "category": "Passeio e organização",
+      "icon": "⌂",
+      "name": "Manta extra",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "2-passeio-e-organizacao-cesto-de-roupa-suja-39",
+      "priority": 2,
+      "category": "Passeio e organização",
+      "icon": "⌂",
+      "name": "Cesto de roupa suja",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "2-passeio-e-organizacao-cabides-40",
+      "priority": 2,
+      "category": "Passeio e organização",
+      "icon": "⌂",
+      "name": "Cabides",
+      "quantity": "6–10",
+      "status": ""
+    },
+    {
+      "id": "2-passeio-e-organizacao-organizadores-simples-41",
+      "priority": 2,
+      "category": "Passeio e organização",
+      "icon": "⌂",
+      "name": "Organizadores simples",
+      "quantity": "2–4",
+      "status": ""
+    },
+    {
+      "id": "2-brinquedos-chocalho-42",
+      "priority": 2,
+      "category": "Brinquedos",
+      "icon": "✿",
+      "name": "Chocalho",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "2-brinquedos-mordedor-43",
+      "priority": 2,
+      "category": "Brinquedos",
+      "icon": "✿",
+      "name": "Mordedor",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "2-brinquedos-livro-de-tecido-alto-contraste-44",
+      "priority": 2,
+      "category": "Brinquedos",
+      "icon": "✿",
+      "name": "Livro de tecido/alto contraste",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "3-extras-saco-de-dormir-45",
+      "priority": 3,
+      "category": "Extras",
+      "icon": "✧",
+      "name": "Saco de dormir",
+      "quantity": "1–2",
+      "status": ""
+    },
+    {
+      "id": "3-extras-roupa-especial-46",
+      "priority": 3,
+      "category": "Extras",
+      "icon": "✧",
+      "name": "Roupa especial",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "3-extras-bomba-tira-leite-47",
+      "priority": 3,
+      "category": "Extras",
+      "icon": "✧",
+      "name": "Bomba tira-leite",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "3-extras-potes-para-leite-48",
+      "priority": 3,
+      "category": "Extras",
+      "icon": "✧",
+      "name": "Potes para leite",
+      "quantity": "2–4",
+      "status": ""
+    },
+    {
+      "id": "3-extras-mamadeiras-49",
+      "priority": 3,
+      "category": "Extras",
+      "icon": "✧",
+      "name": "Mamadeiras",
+      "quantity": "0–2",
+      "status": ""
+    },
+    {
+      "id": "3-extras-chupetas-50",
+      "priority": 3,
+      "category": "Extras",
+      "icon": "✧",
+      "name": "Chupetas",
+      "quantity": "Somente se optar",
+      "status": ""
+    },
+    {
+      "id": "3-extras-tapete-de-atividades-51",
+      "priority": 3,
+      "category": "Extras",
+      "icon": "✧",
+      "name": "Tapete de atividades",
+      "quantity": "1, mais adiante",
+      "status": ""
+    },
+    {
+      "id": "3-extras-mobile-52",
+      "priority": 3,
+      "category": "Extras",
+      "icon": "✧",
+      "name": "Móbile",
+      "quantity": "1",
+      "status": ""
+    },
+    {
+      "id": "3-extras-mais-roupas-p-m-53",
+      "priority": 3,
+      "category": "Extras",
+      "icon": "✧",
+      "name": "Mais roupas P/M",
+      "quantity": "Conforme crescimento",
+      "status": ""
+    }
+  ]
+}
