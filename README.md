@@ -37,3 +37,6 @@ Abra `http://localhost:4173`. Nesse modo, o servidor local salva os dados em `da
 - `POST /api/guests` e `PATCH /api/guests/:id` — cadastro/edição (painel autenticado).
 - `GET /api/invite/:token` e `POST /api/rsvp/:token` — convite individual e RSVP público.
 - `PATCH /api/checklist/:id` — atualiza o checklist (painel autenticado).
+
+
+Deploys publicados pelo GitHub são integrados ao Vercel e usam o backend Supabase.
