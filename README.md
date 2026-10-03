@@ -43,3 +43,6 @@ O convite pode ser testado na mesma rede executando `HOST=0.0.0.0 npm start` e u
 
 
 Vercel deployment preview is configured for this Ninho front end.
+
+
+Este repositório publica a prévia pelo projeto Vercel bichint34.
