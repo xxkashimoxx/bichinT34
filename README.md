@@ -18,7 +18,7 @@ Aplicativo para organizar o chá e a chegada de Anya ou LEVI. Reúne o convite i
 - A chave `sb_publishable_...` inserida pelo `build.js` é pública e tem privilégios anon restritos. A chave de servidor fica somente no runtime Supabase.
 - A senha administrativa não deve ser armazenada no repositório. A sessão expira após 8 horas e fica no `sessionStorage` do navegador.
 
-Para publicar, `npm run build` gera `public/` e injeta a URL da API e a chave publishable. O Vercel reescreve `/convite/:token` para a aplicação; os links enviados aos convidados abrem uma página pública renderizada pela Edge Function Supabase, para continuarem acessíveis mesmo com o painel protegido por SSO.
+Para publicar, `npm run build` gera `public/` e injeta a chave publishable. O painel chama a API pela rota do próprio domínio `/ninho-api`, e o Vercel encaminha as chamadas para a Edge Function Supabase; isso evita chamadas cross-origin do navegador. O Vercel reescreve `/convite/:token` para a aplicação; os links enviados aos convidados abrem uma página pública renderizada pela Edge Function.
 
 ## Desenvolvimento local
 
@@ -37,6 +37,5 @@ Abra `http://localhost:4173`. Nesse modo, o servidor local salva os dados em `da
 - `POST /api/guests` e `PATCH /api/guests/:id` — cadastro/edição (painel autenticado).
 - `GET /api/invite/:token` e `POST /api/rsvp/:token` — convite individual e RSVP público.
 - `PATCH /api/checklist/:id` — atualiza o checklist (painel autenticado).
-
 
 Deploys publicados pelo GitHub são integrados ao Vercel e usam o backend Supabase.
