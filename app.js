@@ -1,6 +1,6 @@
 const app=document.querySelector('#app');
 const API=window.NINHO_API_BASE||'/api';
-const REMOTE_API=API.startsWith('https://');
+const REMOTE_API=API.startsWith('https://')||API.startsWith('/ninho-api/');
 const PUBLIC_API_KEY=window.NINHO_SUPABASE_KEY||'';
 const INVITE_BASE=REMOTE_API?API.replace(/\/api$/,'/invite/'):`${location.origin}/convite/`;
 const publicInviteUrl=token=>`${INVITE_BASE}${token}${REMOTE_API?`?apikey=${encodeURIComponent(PUBLIC_API_KEY)}`:''}`;
