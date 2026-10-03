@@ -40,3 +40,6 @@ O convite pode ser testado na mesma rede executando `HOST=0.0.0.0 npm start` e u
 - `GET /api/invite/:token`
 - `POST /api/rsvp/:token`
 - `PATCH /api/checklist/:id`
+
+
+Vercel deployment preview is configured for this Ninho front end.
