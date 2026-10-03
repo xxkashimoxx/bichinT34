@@ -15,6 +15,7 @@ Aplicativo para organizar o chá e a chegada de Anya ou LEVI. Reúne o convite i
 - Frontend estático publicado no Vercel, projeto `bichint34`.
 - Banco de dados Supabase dedicado `ninho-cha-bebe`, região `sa-east-1` (São Paulo).
 - A Edge Function `ninho-api` valida a senha do painel e mantém os dados administrativos privados; os links de RSVP usam tokens aleatórios individuais.
+- A arte do convite está empacotada como módulo TypeScript junto da função, sem dependência de arquivo externo no runtime.
 - A chave `sb_publishable_...` inserida pelo `build.js` é pública e tem privilégios anon restritos. A chave de servidor fica somente no runtime Supabase.
 - A senha administrativa não deve ser armazenada no repositório. A sessão expira após 8 horas e fica no `sessionStorage` do navegador.
 
