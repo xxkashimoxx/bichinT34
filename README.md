@@ -46,3 +46,5 @@ Vercel deployment preview is configured for this Ninho front end.
 
 
 Este repositório publica a prévia pelo projeto Vercel bichint34.
+
+A identidade visual inicial usa roxo e Anya fica como nome padrão; LEVI permanece disponível nas configurações.
