@@ -2,13 +2,13 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f5eafa"><title>Ninho — celebrar a chegada</title>
+  <meta name="theme-color" content="#f5eafa"><meta name="description" content="Lá vem cegonha: convites, convidados, confirmações e checklist para celebrar a chegada de Anya ou Levi."><title>Lá vem cegonha — chá de bebê</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Allura&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main id="app"><div class="loading">Preparando o Ninho…</div></main>
+  <main id="app"><div class="loading">Preparando o Lá vem cegonha…</div></main>
   <dialog id="guest-dialog" class="modal"><form id="guest-form"><button type="button" class="modal-close" data-close aria-label="Fechar">×</button><span class="eyebrow">LISTA DE CONVIDADOS</span><h2 id="guest-dialog-title">Adicionar convidado</h2><input type="hidden" name="id"><label>Nome<input name="name" required maxlength="90" placeholder="Nome e sobrenome"></label><label>Telefone / WhatsApp <small>(opcional)</small><input name="phone" maxlength="24" placeholder="(21) 99999-9999"></label><label>Observação <small>(opcional)</small><input name="note" maxlength="160" placeholder="Ex.: família, precisa de acessibilidade…"></label><div class="modal-actions"><button type="button" class="button button-light" data-close>Cancelar</button><button class="button button-primary">Salvar convidado</button></div></form></dialog>
   <dialog id="settings-dialog" class="modal"><form id="settings-form"><button type="button" class="modal-close" data-close aria-label="Fechar">×</button><span class="eyebrow">PERSONALIZE O EVENTO</span><h2>Detalhes do chá</h2><label>Nome do bebê<select name="baby"><option value="Anya">Anya — menina</option><option value="LEVI">LEVI — menino</option></select></label><div class="two-fields"><label>Data<input name="date" type="date"></label><label>Horário<input name="time" type="time"></label></div><label>Endereço<input name="address" maxlength="180" placeholder="Rua, número, bairro e cidade"></label><label>Mensagem do convite<textarea name="message" rows="3" maxlength="240" placeholder="Venha celebrar conosco!"></textarea></label><label>Link de mapa <small>(opcional)</small><input name="mapUrl" type="url" placeholder="https://maps.google.com/…"></label><div class="modal-actions"><button type="button" class="button button-light" data-close>Cancelar</button><button class="button button-primary">Salvar detalhes</button></div></form></dialog>
   <div id="toast" class="toast" role="status"></div>
