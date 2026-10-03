@@ -12,7 +12,7 @@ Aplicativo para organizar o chá e a chegada de Anya ou Levi. Anya usa a identid
 
 ## Produção
 
-- Frontend estático publicado no Vercel, projeto `bichint34`.
+- Frontend estático publicado no Vercel, projeto `la-vem-cegonha`: https://la-vem-cegonha.vercel.app/. O endereço anterior `bichint34.vercel.app` permanece associado ao mesmo projeto.
 - Banco de dados Supabase dedicado `ninho-cha-bebe`, região `sa-east-1` (São Paulo).
 - A Edge Function `ninho-api` valida a senha do painel e mantém os dados administrativos privados; os links de RSVP usam tokens aleatórios individuais.
 - A chave `sb_publishable_...` inserida pelo `build.js` é pública e tem privilégios anon restritos. A chave de servidor fica somente no runtime Supabase.
@@ -37,4 +37,5 @@ Abra `http://localhost:4173`. Nesse modo, o servidor local salva os dados em `da
 - `POST /api/guests` e `PATCH /api/guests/:id` — cadastro/edição (painel autenticado).
 - `GET /api/invite/:token` e `POST /api/rsvp/:token` — convite individual e RSVP público.
 - `PATCH /api/checklist/:id` — atualiza o checklist (painel autenticado).
+
 Identidade visual: Anya em violeta; Levi em sálvia e creme. A logo oficial é Lá vem cegonha.
