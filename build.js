@@ -4,4 +4,7 @@ const out=path.join(__dirname,'public');
 fs.rmSync(out,{recursive:true,force:true});
 fs.mkdirSync(out,{recursive:true});
 for(const name of ['index.html','styles.css','app.js','seed.json'])fs.copyFileSync(path.join(__dirname,name),path.join(out,name));
-console.log('Static Ninho preview built in public/.');
+const assets=path.join(out,'assets');
+fs.mkdirSync(assets,{recursive:true});
+fs.writeFileSync(path.join(assets,'convite-anya.webp'),Buffer.from(fs.readFileSync(path.join(__dirname,'assets','convite-anya.webp.b64'),'utf8').trim(),'base64'));
+console.log('Ninho site built in public/.');
