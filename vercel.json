@@ -2,6 +2,10 @@
   "buildCommand": "npm run build",
   "outputDirectory": "public",
   "rewrites": [
+    {
+      "source": "/ninho-api/:path*",
+      "destination": "https://vzqamqaznnneelhjtbzc.supabase.co/functions/v1/ninho-api/:path*"
+    },
     { "source": "/convite/:token", "destination": "/index.html" }
   ]
 }
