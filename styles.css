@@ -44,3 +44,54 @@
 @media(max-width:850px){.hero h1{font-size:clamp(34px,7vw,50px)}.hero h1 .hero-baby{font-size:clamp(88px,17vw,122px)}.boy .hero h1 .hero-baby{font-size:clamp(69px,14vw,96px)}}
 @media(max-width:560px){.topbar{height:77px;gap:6px}.brand{gap:7px}.brand-mark{width:43px;height:43px;background-size:126px auto}.brand-name{font-size:15px}.brand small{font-size:7.5px;letter-spacing:1.3px}.top-actions{gap:5px}.top-actions .button{padding:9px 8px}.hero{overflow:visible;padding:28px 16px 20px}.hero h1{font-size:clamp(31px,9vw,39px);margin:17px 0 24px;line-height:1.18}.hero h1 .hero-baby{font-size:clamp(79px,24vw,106px);line-height:1.1;margin:13px 0 10px;padding:0 .17em .1em}.hero-actions{justify-content:center}.hero-actions .button{flex:1 1 125px}.boy .hero h1 .hero-baby{font-size:clamp(65px,18vw,86px)}.levi-poster{aspect-ratio:1.2;padding:7% 5%}.levi-kicker{margin-bottom:9%;font-size:7px;letter-spacing:.16em}.levi-name{font-size:clamp(56px,19vw,90px)}.levi-small{font-size:17px}.levi-arriving{font-size:18px}.levi-poster p{font-size:11px;margin:5% 0}.levi-details{width:90%;font-size:8px;gap:6px;padding:3%;display:grid;text-align:center}.levi-foot{font-size:7px;margin-top:6%}.brand-full{width:165px}}
 @media(max-width:380px){.brand-mark{width:38px;height:38px;background-size:112px auto}.brand-name{font-size:13px}.top-actions .button{padding:8px 6px;font-size:9px}.top-actions .icon-button{padding:8px}}
+
+/* Atalhos de personalização; mantém a navegação e as ações da lista. */
+.personalize-card{margin:18px 0 26px;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden}
+.personalize-heading{padding:25px 30px 16px}
+.personalize-heading h2{font:600 clamp(24px,3vw,34px)/1.2 'Playfair Display',serif;margin:8px 0 5px;color:var(--accent-ink)}
+.personalize-heading h2 span{color:var(--accent)}
+.personalize-heading p{color:var(--muted);font-size:13px;line-height:1.5;margin:0}
+.personalize-row{display:flex;align-items:center;gap:18px;text-align:left;width:100%;min-height:72px;padding:13px 30px;background:#fff;border:0;border-top:1px solid var(--line);color:var(--ink);transition:background .15s}
+.personalize-row:hover,.personalize-row:focus-visible{background:color-mix(in srgb,var(--accent-soft) 36%,white)}
+.personalize-icon{display:grid;place-items:center;flex:none;width:40px;height:40px;color:var(--accent);background:var(--accent-soft);border-radius:12px}
+.personalize-icon svg{width:23px;height:23px}
+.personalize-label{display:grid;gap:3px;flex:1;min-width:0}
+.personalize-label strong{font-size:16px;font-weight:600}
+.personalize-label small{font-size:11px;color:var(--muted)}
+.personalize-arrow{font-size:29px;font-weight:300;color:var(--accent);line-height:1}
+.settings-divider{border-top:1px solid var(--line);padding-top:17px;margin-top:19px;font-size:12px;font-weight:700;color:var(--accent-ink)}
+
+/* Convite individual: ações fáceis de encontrar e confirmação em dois toques. */
+.public-wrap{max-width:760px}
+.guest-event-card{background:#fff;border:1px solid color-mix(in srgb,var(--accent) 50%,white);border-radius:20px;padding:clamp(20px,5vw,36px);box-shadow:0 16px 40px color-mix(in srgb,var(--accent) 12%,transparent);margin:0 0 20px}
+.guest-event-card .eyebrow{display:block;text-align:center}
+.guest-event-card h1{text-align:center;font:600 clamp(29px,5vw,42px)/1.12 'Playfair Display',serif;color:var(--accent-ink);margin:9px 0}
+.boy .guest-event-card h1{font-family:'DM Sans',sans-serif;letter-spacing:-.04em}
+.guest-greeting{text-align:center;color:var(--muted);font-size:14px;line-height:1.5;margin:0 0 22px}
+.guest-event-line{display:flex;align-items:flex-start;gap:18px;padding:16px 0 22px;border-top:1px solid var(--line)}
+.guest-event-line>span{color:var(--accent);font-size:28px;line-height:1}
+.guest-event-line strong{display:block;color:var(--accent);font-size:24px;line-height:1.1;margin-bottom:9px}
+.guest-event-line p{margin:3px 0;color:var(--ink);font-size:15px;line-height:1.5}
+.guest-event-line a,.guest-extra-links a{display:inline-block;color:var(--accent);font-size:12px;font-weight:700;margin-top:6px}
+.guest-event-buttons{display:grid;gap:12px}
+.guest-pill{display:flex;align-items:center;justify-content:center;width:100%;min-height:52px;border-radius:999px;text-align:center;text-decoration:none;font:700 16px 'DM Sans',sans-serif;letter-spacing:.01em;transition:transform .15s,filter .15s}
+.guest-pill:hover,.guest-pill:focus-visible{transform:translateY(-2px)}
+.guest-pill-outline{color:var(--accent);background:#fff;border:1.5px solid var(--accent)}
+.guest-pill-filled{color:#fff;background:var(--accent);border:1.5px solid var(--accent)}
+.guest-rsvp{border-top:1px solid var(--line);margin-top:21px;padding-top:21px;text-align:center}
+.guest-rsvp[hidden]{display:none}
+.guest-rsvp h2{font:600 23px 'Playfair Display',serif;color:var(--accent-ink);margin:0 0 4px}
+.boy .guest-rsvp h2{font-family:'DM Sans',sans-serif}
+.guest-rsvp>p{font-size:12px;color:var(--muted);line-height:1.5;margin:0 0 13px}
+.party-select{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:13px}
+.party-select label{font-size:12px;font-weight:600}
+.party-select select{padding:10px 13px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font-size:13px}
+.guest-answer-buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.guest-answer-buttons button{min-height:47px;border-radius:12px;font:700 14px 'DM Sans',sans-serif;cursor:pointer}
+.guest-answer-yes{border:1px solid var(--accent);background:var(--accent);color:#fff}
+.guest-answer-no{border:1px solid var(--line);background:#fff;color:var(--accent-ink)}
+.guest-answer-buttons button:disabled{opacity:.6;cursor:wait}
+.rsvp-error{color:#a6454a!important;margin-top:10px!important}
+.guest-extra-links{display:flex;gap:20px;justify-content:center;padding:10px 0}
+.public-page .invite-card{margin-bottom:22px}
+@media(max-width:560px){.personalize-card{border-radius:17px;margin:15px 0 21px}.personalize-heading{padding:20px 20px 15px}.personalize-heading h2{font-size:26px}.personalize-row{padding:11px 19px;gap:13px;min-height:69px}.personalize-label strong{font-size:15px}.personalize-label small{font-size:10px}.guest-event-card{padding:23px 18px}.guest-event-line{gap:11px}.guest-event-line strong{font-size:23px}.guest-event-line p{font-size:14px}.guest-answer-buttons{grid-template-columns:1fr}.party-select{justify-content:space-between}.guest-pill{min-height:52px}}
