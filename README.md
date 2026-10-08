@@ -18,7 +18,7 @@ Aplicativo para organizar o chá e a chegada de Anya ou Levi. Anya usa a identid
 - A chave `sb_publishable_...` inserida pelo `build.js` é pública e tem privilégios anon restritos. A chave de servidor fica somente no runtime Supabase.
 - A senha administrativa não deve ser armazenada no repositório. A sessão expira após 8 horas e fica no `sessionStorage` do navegador.
 
-Para publicar, `npm run build` gera `public/` e injeta a URL da API e a chave publishable. O Vercel reescreve `/convite/:token` para a aplicação; os links enviados aos convidados abrem uma página pública renderizada pela Edge Function Supabase, para continuarem acessíveis mesmo com o painel protegido por SSO.
+Para publicar, `npm run build` gera `public/` e injeta a URL da API e a chave publishable. O Vercel reescreve `/convite/:token` para a aplicação; os links enviados aos convidados abrem a página pública no Vercel; a Edge Function Supabase fornece os dados e registra a resposta.
 
 ## Desenvolvimento local
 
@@ -39,3 +39,8 @@ Abra `http://localhost:4173`. Nesse modo, o servidor local salva os dados em `da
 - `PATCH /api/checklist/:id` — atualiza o checklist (painel autenticado).
 
 Identidade visual: Anya em violeta; Levi em sálvia e creme. A logo oficial é Lá vem cegonha.
+
+
+## Convite e resposta rápida
+
+O painel mantém os atalhos de lista de presentes, fotos, local, música e link da página ao lado da lista de convidados. Os links externos opcionais são configurados em Detalhes do chá. Cada convidado recebe um link individual; no convite, o cartão Evento oferece Confirmar presença e Presentear. A pessoa pode responder sim ou não em dois toques, escolher acompanhantes se precisar e alterar a resposta depois. A lista de convidados permanece vazia até a família preenchê-la.
