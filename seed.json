@@ -5,7 +5,10 @@
     "time": "",
     "address": "",
     "message": "Venha celebrar conosco!",
-    "mapUrl": ""
+    "mapUrl": "",
+    "giftUrl": "",
+    "photosUrl": "",
+    "musicUrl": ""
   },
   "guests": [],
   "checklist": [
