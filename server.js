@@ -19,7 +19,7 @@ const catalog=[
  [3,'Extras','✧',[['Saco de dormir','1–2'],['Roupa especial','1'],['Bomba tira-leite','1'],['Potes para leite','2–4'],['Mamadeiras','0–2'],['Chupetas','Somente se optar'],['Tapete de atividades','1, mais adiante'],['Móbile','1'],['Mais roupas P/M','Conforme crescimento']]]
 ];
 function slug(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')}
-function seed(){let n=0;return {event:{baby:'Anya',date:'',time:'',address:'',message:'Venha celebrar conosco!',mapUrl:''},guests:[],checklist:catalog.flatMap(([priority,category,icon,items])=>items.map(([name,quantity])=>({id:`${priority}-${slug(category)}-${slug(name)}-${++n}`,priority,category,icon,name,quantity,status:''})))}}
+function seed(){let n=0;return {event:{baby:'Anya',date:'',time:'',address:'',message:'Venha celebrar conosco!',mapUrl:'',giftUrl:'',photosUrl:'',musicUrl:''},guests:[],checklist:catalog.flatMap(([priority,category,icon,items])=>items.map(([name,quantity])=>({id:`${priority}-${slug(category)}-${slug(name)}-${++n}`,priority,category,icon,name,quantity,status:''})))}}
 fs.mkdirSync(DATA_DIR,{recursive:true});
 let db;try{db=JSON.parse(fs.readFileSync(DB,'utf8'))}catch{db=seed();writeDb()}
 function writeDb(){const temp=DB+'.tmp';fs.writeFileSync(temp,JSON.stringify(db,null,2));fs.renameSync(temp,DB)}
@@ -33,7 +33,22 @@ const server=http.createServer(async(req,res)=>{
  const p=url.pathname;
  if(req.method==='GET'&&p==='/api/data')return send(res,200,db);
  if(req.method==='GET'&&p.startsWith('/api/invite/')){const token=decodeURIComponent(p.slice('/api/invite/'.length));const guest=db.guests.find(g=>g.token===token);if(!guest)return error(res,404,'Convite não encontrado');return send(res,200,{guest,event:db.event})}
- if(p==='/api/event'&&req.method==='PUT'){try{const b=await body(req);const baby=clean(b.baby,40);if(!['LEVI','Anya'].includes(baby))return error(res,400,'Escolha Anya ou LEVI.');if(b.date&&!/^\d{4}-\d{2}-\d{2}$/.test(b.date))return error(res,400,'Data inválida.');if(b.time&&!/^\d{2}:\d{2}$/.test(b.time))return error(res,400,'Horário inválido.');let mapUrl='';try{if(clean(b.mapUrl,500)){const u=new URL(clean(b.mapUrl,500));if(!['http:','https:'].includes(u.protocol))throw 1;mapUrl=u.href}}catch{return error(res,400,'O link do mapa precisa começar com http:// ou https://.')}db.event={baby,date:clean(b.date,10),time:clean(b.time,5),address:clean(b.address,180),message:clean(b.message,240),mapUrl};writeDb();return send(res,200,{event:db.event})}catch(e){return error(res,400,e.message)}}
+ if(p==='/api/event'&&req.method==='PUT'){
+  try{
+   const b=await body(req),baby=clean(b.baby,40);
+   if(!['LEVI','Anya'].includes(baby))return error(res,400,'Escolha Anya ou LEVI.');
+   if(b.date&&!/^\d{4}-\d{2}-\d{2}$/.test(b.date))return error(res,400,'Data inválida.');
+   if(b.time&&!/^\d{2}:\d{2}$/.test(b.time))return error(res,400,'Horário inválido.');
+   const links={};
+   for(const [field,label] of [['mapUrl','mapa'],['giftUrl','lista de presentes'],['photosUrl','fotos'],['musicUrl','música']]){
+    const value=clean(b[field],500);
+    if(value){try{if(!['http:','https:'].includes(new URL(value).protocol))throw Error()}catch{return error(res,400,`O link de ${label} precisa começar com http:// ou https://.`)}}
+    links[field]=value;
+   }
+   db.event={baby,date:clean(b.date,10),time:clean(b.time,5),address:clean(b.address,180),message:clean(b.message,240),...links};
+   writeDb();return send(res,200,{event:db.event});
+  }catch(e){return error(res,400,e.message)}
+ }
  if(p==='/api/guests'&&req.method==='POST'){try{const b=await body(req),name=clean(b.name,90);if(!name)return error(res,400,'Informe o nome do convidado.');const guest={id:crypto.randomUUID(),token:crypto.randomBytes(8).toString('base64url'),name,phone:clean(b.phone,24),note:clean(b.note,160),status:'pending',partySize:1,createdAt:new Date().toISOString()};db.guests.push(guest);writeDb();return send(res,201,{guest})}catch(e){return error(res,400,e.message)}}
  const guestMatch=p.match(/^\/api\/guests\/([\w-]+)$/);
  if(guestMatch&&req.method==='PATCH'){try{const b=await body(req),g=db.guests.find(x=>x.id===guestMatch[1]);if(!g)return error(res,404,'Convidado não encontrado');const name=clean(b.name,90);if(!name)return error(res,400,'Informe o nome do convidado.');g.name=name;g.phone=clean(b.phone,24);g.note=clean(b.note,160);writeDb();return send(res,200,{guest:g})}catch(e){return error(res,400,e.message)}}
