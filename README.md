@@ -44,3 +44,5 @@ Identidade visual: Anya em violeta; Levi em sálvia e creme. A logo oficial é L
 ## Convite e resposta rápida
 
 O painel mantém os atalhos de lista de presentes, fotos, local, música e link da página ao lado da lista de convidados. Os links externos opcionais são configurados em Detalhes do chá. Cada convidado recebe um link individual; no convite, o cartão Evento oferece Confirmar presença e Presentear. A pessoa pode responder sim ou não em dois toques, escolher acompanhantes se precisar e alterar a resposta depois. A lista de convidados permanece vazia até a família preenchê-la.
+
+O convite público abre diretamente pelo link individual, sem pedir a senha da área da família.
