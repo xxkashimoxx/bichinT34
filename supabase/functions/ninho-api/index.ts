@@ -176,7 +176,7 @@ Deno.serve(async (req: Request) => {
     if (path === "/api/event" && req.method === "PUT") {
       const body = await jsonBody(req);
       const baby = clean(body?.baby, 40);
-      if (!['Anya', 'LEVI'].includes(baby)) return reply(400, { error: "Escolha Anya ou LEVI." });
+      if (baby !== "Anya") return reply(400, { error: "O projeto está configurado exclusivamente para Anya." });
       if (body?.date && !/^\d{4}-\d{2}-\d{2}$/.test(body.date)) return reply(400, { error: "Data inválida." });
       if (body?.time && !/^\d{2}:\d{2}$/.test(body.time)) return reply(400, { error: "Horário inválido." });
       const links: Record<string, string> = {};
@@ -239,3 +239,4 @@ Deno.serve(async (req: Request) => {
     return reply(500, { error: "Não foi possível concluir a operação." });
   }
 });
+
