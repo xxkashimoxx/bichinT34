@@ -13,6 +13,7 @@ const cors = {
   "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, OPTIONS",
 };
 const attempts = new Map<string, { count: number; reset: number }>();
+const publicSubmissions = new Map<string, { count: number; reset: number }>();
 
 function reply(status: number, value: unknown) {
   return new Response(JSON.stringify(value), {
@@ -37,7 +38,7 @@ async function hmacKey() {
 
 async function makeAdminToken() {
   const header = b64url(JSON.stringify({ alg: "HS256", typ: "JWT" }));
-  const payload = b64url(JSON.stringify({ sub: "ninho-admin", exp: Math.floor(Date.now() / 1000) + 8 * 60 * 60 }));
+  const payload = b64url(JSON.stringify({ sub: "ninho-admin", v: 2, exp: Math.floor(Date.now() / 1000) + 8 * 60 * 60 }));
   const unsigned = `${header}.${payload}`;
   const signature = new Uint8Array(await crypto.subtle.sign("HMAC", await hmacKey(), enc.encode(unsigned)));
   return `${unsigned}.${b64url(signature)}`;
@@ -53,7 +54,7 @@ async function isAdmin(req: Request) {
     const valid = await crypto.subtle.verify("HMAC", await hmacKey(), signature, enc.encode(unsigned));
     if (!valid) return false;
     const payload = JSON.parse(unb64url(pieces[1]));
-    return payload.sub === "ninho-admin" && Number(payload.exp) > Math.floor(Date.now() / 1000);
+    return payload.sub === "ninho-admin" && payload.v === 2 && Number(payload.exp) > Math.floor(Date.now() / 1000);
   } catch {
     return false;
   }
@@ -159,12 +160,35 @@ Deno.serve(async (req: Request) => {
       return reply(200, { guest: guestOut(data) });
     }
 
+    if (path === "/api/public-rsvp" && req.method === "POST") {
+      const body = await jsonBody(req);
+      const name = clean(body?.name, 90);
+      const status = body?.status;
+      const partySize = Number(body?.partySize || 1);
+      if (name.length < 2) return reply(400, { error: "Informe seu nome para confirmar." });
+      if (!['yes', 'no'].includes(status)) return reply(400, { error: "Escolha uma resposta." });
+      if (!Number.isInteger(partySize) || partySize < 1 || partySize > 8) return reply(400, { error: "Selecione de 1 a 8 pessoas." });
+      const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+      const now = Date.now();
+      const recent = publicSubmissions.get(ip);
+      if (recent && recent.reset > now && recent.count >= 5) return reply(429, { error: "Muitas confirmações. Tente novamente mais tarde." });
+      if (!recent || recent.reset <= now) publicSubmissions.set(ip, { count: 1, reset: now + 15 * 60 * 1000 });
+      else publicSubmissions.set(ip, { count: recent.count + 1, reset: recent.reset });
+      const { data, error } = await db.from("ninho_guests").insert({
+        name, status, party_size: status === "yes" ? partySize : 1,
+        responded_at: new Date().toISOString(),
+        note: "Resposta pelo convite público",
+      }).select("*").single();
+      if (error) throw error;
+      return reply(201, { guest: guestOut(data) });
+    }
+
     if (!(await needAdmin(req))) return reply(401, { error: "Acesso administrativo necessário." });
 
     if (path === "/api/data" && req.method === "GET") {
       const [eventResult, guestResult, checklistResult] = await Promise.all([
         db.from("ninho_event").select("*").eq("id", 1).single(),
-        db.from("ninho_guests").select("*").order("created_at", { ascending: false }),
+        db.from("ninho_guests").select("*").order("created_at", { ascending: true }),
         db.from("ninho_checklist").select("*").order("priority").order("category").order("name"),
       ]);
       if (eventResult.error) throw eventResult.error;
@@ -239,4 +263,3 @@ Deno.serve(async (req: Request) => {
     return reply(500, { error: "Não foi possível concluir a operação." });
   }
 });
-
