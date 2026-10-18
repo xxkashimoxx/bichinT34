@@ -83,4 +83,5 @@
 .public-page .invite-card{margin-bottom:22px}
 @media(max-width:560px){.personalize-card{border-radius:17px;margin:15px 0 21px}.personalize-heading{padding:20px 20px 15px}.personalize-heading h2{font-size:26px}.personalize-row{padding:11px 19px;gap:13px;min-height:69px}.personalize-label strong{font-size:15px}.personalize-label small{font-size:10px}.guest-event-card{padding:23px 18px}.guest-event-line{gap:11px}.guest-event-line strong{font-size:23px}.guest-event-line p{font-size:14px}.guest-answer-buttons{grid-template-columns:1fr}.party-select{justify-content:space-between}.guest-pill{min-height:52px}}
  .public-admin-bar{display:flex;justify-content:flex-end;margin-bottom:10px}.public-admin-bar .button{font-size:10px}
+ .brand-mark{overflow:hidden;padding:0;background:#fff!important;border:1px solid var(--line)}.brand-mark img{width:100%;height:100%;object-fit:contain;border-radius:inherit}
 
