@@ -36,7 +36,7 @@ const server=http.createServer(async(req,res)=>{
  if(p==='/api/event'&&req.method==='PUT'){
   try{
    const b=await body(req),baby=clean(b.baby,40);
-   if(!['LEVI','Anya'].includes(baby))return error(res,400,'Escolha Anya ou LEVI.');
+   if(baby!=='Anya')return error(res,400,'O projeto está configurado exclusivamente para Anya.');
    if(b.date&&!/^\d{4}-\d{2}-\d{2}$/.test(b.date))return error(res,400,'Data inválida.');
    if(b.time&&!/^\d{2}:\d{2}$/.test(b.time))return error(res,400,'Horário inválido.');
    const links={};
@@ -61,3 +61,4 @@ const server=http.createServer(async(req,res)=>{
  error(res,405,'Método não permitido');
 });
 server.listen(PORT,HOST,()=>console.log(`Lá vem cegonha ativo em http://${HOST}:${PORT}`));
+
