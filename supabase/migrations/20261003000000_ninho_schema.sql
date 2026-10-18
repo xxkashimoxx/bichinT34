@@ -13,7 +13,7 @@ on conflict (singleton) do nothing;
 
 create table public.ninho_event (
   id integer primary key default 1 check (id = 1),
-  baby text not null default 'Anya' check (baby in ('Anya','LEVI')),
+  baby text not null default 'Anya' check (baby = 'Anya'),
   event_date date,
   event_time time,
   address text not null default '',
@@ -121,3 +121,4 @@ values
 ('3-extras-mobile-52', 3, 'Extras', '✧', 'Móbile', '1', ''),
 ('3-extras-mais-roupas-p-m-53', 3, 'Extras', '✧', 'Mais roupas P/M', 'Conforme crescimento', '')
 on conflict (id) do nothing;
+
