@@ -97,3 +97,29 @@
 .public-rsvp-form input,.public-rsvp-form select{width:100%;min-height:48px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:12px;font-size:16px;color:var(--ink)}
 .public-rsvp-form .guest-answer-buttons{margin-top:6px}
 @media(max-width:560px){.public-page{padding:12px 12px 36px}.public-rsvp-cta{width:100%;min-height:64px}.public-rsvp-form .guest-answer-buttons{grid-template-columns:1fr}}
+
+/* Roxo da arte final e convite completo em todas as prévias. */
+:root{--accent:#8544c7;--accent-soft:#f1e3fb;--accent-ink:#633295;--paper:#fcf9ff;--line:#e4d1f0;--shadow:0 14px 45px #66319a16}
+body{background:radial-gradient(ellipse at 12% 0,#eee0fa 0,transparent 36%),#fcf9ff}
+.invite-art{width:100%;height:auto;display:block;min-width:0}
+.invite-poster{width:100%;height:auto;object-fit:contain;max-width:100%}
+.invite-preview{grid-template-columns:minmax(0,1fr);max-width:990px;margin:0 auto}
+.invite-poster-wrap{max-width:none;min-width:0;width:100%}
+.invite-preview .invite-poster{max-width:none}
+.invite-side{width:100%;max-width:720px;justify-self:center}
+.hero-art .invite-art{max-width:600px}
+.hero-art .invite-poster{max-width:600px}
+.shop-link{display:inline-block;margin-top:5px;font-size:11px;font-weight:700;color:var(--accent-ink);text-decoration:underline;text-underline-offset:2px}
+.shop-link:hover,.shop-link:focus-visible{color:var(--accent)}
+.check-item>div:first-child{min-width:0}
+.public-gifts-button{display:block;margin:18px auto 0;min-height:44px}
+.gift-catalog{text-align:left;scroll-margin-top:16px}
+.gift-catalog>p{font-size:13px;line-height:1.5}
+.gift-catalog details{border:1px solid var(--line);border-radius:11px;margin-top:9px;overflow:hidden;background:#fff}
+.gift-catalog summary{cursor:pointer;padding:14px 17px;font-weight:700;color:var(--accent-ink)}
+.gift-catalog summary span{float:right;font-size:11px;font-weight:400;color:var(--muted)}
+.gift-catalog-items a{display:flex;justify-content:space-between;gap:12px;align-items:center;border-top:1px solid var(--line);padding:13px 17px;color:var(--ink);text-decoration:none;font-size:13px}
+.gift-catalog-items a:hover,.gift-catalog-items a:focus-visible{background:var(--accent-soft)}
+.gift-catalog-items a small{display:block;color:var(--muted);margin-top:3px}
+.gift-catalog-items a>span:last-child{color:var(--accent-ink);font-size:11px;white-space:nowrap;font-weight:700}
+@media(max-width:560px){.check-item{flex-wrap:wrap}.check-actions{margin-left:auto}.gift-catalog-items a{align-items:flex-start}}
