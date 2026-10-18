@@ -12,6 +12,7 @@ fs.writeFileSync(path.join(out,'index.html'),index.replace('<script src="/app.js
 const assets=path.join(out,'assets');
 fs.mkdirSync(assets,{recursive:true});
 fs.copyFileSync(path.join(__dirname,'assets','convite-anya-final.jpg'),path.join(assets,'convite-anya-final.jpg'));
+fs.writeFileSync(path.join(assets,'convite-anya.webp'),Buffer.from(fs.readFileSync(path.join(__dirname,'assets','convite-anya.webp.b64'),'utf8').trim(),'base64'));
 fs.writeFileSync(path.join(assets,'logo-cegonha.webp'),Buffer.from(fs.readFileSync(path.join(__dirname,'assets','logo-cegonha.webp.b64'),'utf8').trim(),'base64'));
 console.log('Lá vem cegonha site built in public/.');
 
