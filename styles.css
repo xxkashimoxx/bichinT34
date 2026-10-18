@@ -89,3 +89,11 @@
 .public-page{display:block;min-height:100vh;padding:24px 16px 48px}
 .public-wrap{margin:0 auto}
 .public-poster .invite-poster{max-width:100%}
+.public-access{text-align:center}
+.public-rsvp-cta{max-width:520px;margin:0 auto 22px;font-size:clamp(17px,3vw,22px);min-height:64px;box-shadow:0 12px 28px #814caf44}
+.public-rsvp-form{display:grid;gap:10px;max-width:520px;margin:22px auto 0;text-align:left}
+.public-rsvp-form[hidden]{display:none}
+.public-rsvp-form label{font-size:14px;font-weight:700;color:var(--accent-ink)}
+.public-rsvp-form input,.public-rsvp-form select{width:100%;min-height:48px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:12px;font-size:16px;color:var(--ink)}
+.public-rsvp-form .guest-answer-buttons{margin-top:6px}
+@media(max-width:560px){.public-page{padding:12px 12px 36px}.public-rsvp-cta{width:100%;min-height:64px}.public-rsvp-form .guest-answer-buttons{grid-template-columns:1fr}}
