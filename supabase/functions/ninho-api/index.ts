@@ -10,7 +10,7 @@ const enc = new TextEncoder();
 const cors = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, apikey, content-type",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
 };
 const attempts = new Map<string, { count: number; reset: number }>();
 const publicSubmissions = new Map<string, { count: number; reset: number }>();
@@ -90,6 +90,16 @@ function guestOut(row: Record<string, unknown>) {
 
 function clean(value: unknown, max: number) {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
+}
+
+function localDate() {
+  return new Intl.DateTimeFormat("sv-SE", { timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+}
+
+async function giftsOpen() {
+  const { data, error } = await db.from("ninho_event").select("event_date").eq("id", 1).single();
+  if (error) throw error;
+  return !!data.event_date && localDate() > data.event_date;
 }
 
 function htmlEscape(value: unknown) {
@@ -192,18 +202,82 @@ Deno.serve(async (req: Request) => {
       return reply(200, { checklist: data });
     }
 
+    if (path === "/api/mural" && req.method === "GET") {
+      if (!(await giftsOpen())) return reply(200, { messages: [] });
+      const { data, error } = await db.from("ninho_gifts")
+        .select("donor_name,message,created_at")
+        .eq("publish_message", true).neq("message", "")
+        .order("created_at", { ascending: false }).limit(100);
+      if (error) throw error;
+      return reply(200, { messages: data });
+    }
+
     if (!(await needAdmin(req))) return reply(401, { error: "Acesso administrativo necessário." });
 
     if (path === "/api/data" && req.method === "GET") {
-      const [eventResult, guestResult, checklistResult] = await Promise.all([
+      const [eventResult, guestResult, checklistResult, giftsResult] = await Promise.all([
         db.from("ninho_event").select("*").eq("id", 1).single(),
         db.from("ninho_guests").select("*").order("created_at", { ascending: true }),
         db.from("ninho_checklist").select("*").order("priority").order("category").order("name"),
+        db.from("ninho_gifts").select("*").order("created_at", { ascending: false }),
       ]);
       if (eventResult.error) throw eventResult.error;
       if (guestResult.error) throw guestResult.error;
       if (checklistResult.error) throw checklistResult.error;
-      return reply(200, { event: eventOut(eventResult.data), guests: guestResult.data.map(guestOut), checklist: checklistResult.data });
+      if (giftsResult.error) throw giftsResult.error;
+      return reply(200, { event: eventOut(eventResult.data), guests: guestResult.data.map(guestOut), checklist: checklistResult.data, gifts: giftsResult.data, giftsOpen: await giftsOpen() });
+    }
+
+    if (path === "/api/gifts" && req.method === "POST") {
+      if (!(await giftsOpen())) return reply(403, { error: "O registro de presentes abre no dia seguinte ao chá." });
+      const body = await jsonBody(req);
+      const donorName = clean(body?.donorName, 90);
+      const description = clean(body?.description, 180);
+      const message = clean(body?.message, 300);
+      const guestId = body?.guestId || null;
+      const itemId = body?.itemId || null;
+      if (donorName.length < 2 || description.length < 2) return reply(400, { error: "Informe quem presenteou e o presente." });
+      if (guestId) {
+        const { data: guest } = await db.from("ninho_guests").select("id").eq("id", guestId).maybeSingle();
+        if (!guest) return reply(400, { error: "Convidado não encontrado." });
+      }
+      if (itemId) {
+        const { data: item } = await db.from("ninho_checklist").select("id").eq("id", itemId).maybeSingle();
+        if (!item) return reply(400, { error: "Item não encontrado." });
+      }
+      const { data: gift, error } = await db.from("ninho_gifts").insert({
+        guest_id: guestId, donor_name: donorName, item_id: itemId,
+        gift_description: description, message, publish_message: !!body?.publishMessage && !!message,
+      }).select("*").single();
+      if (error) throw error;
+      if (itemId) {
+        const { error: itemError } = await db.from("ninho_checklist").update({ status: "have" }).eq("id", itemId);
+        if (itemError) {
+          await db.from("ninho_gifts").delete().eq("id", gift.id);
+          throw itemError;
+        }
+      }
+      return reply(201, { gift });
+    }
+
+    const giftPath = path.match(/^\/api\/gifts\/([a-f0-9-]{36})$/);
+    if (giftPath && req.method === "PATCH") {
+      if (!(await giftsOpen())) return reply(403, { error: "O registro de presentes ainda não está aberto." });
+      const body = await jsonBody(req);
+      const message = clean(body?.message, 300);
+      const { data, error } = await db.from("ninho_gifts").update({
+        message, publish_message: !!body?.publishMessage && !!message,
+      }).eq("id", giftPath[1]).select("*").maybeSingle();
+      if (error) throw error;
+      if (!data) return reply(404, { error: "Presente não encontrado." });
+      return reply(200, { gift: data });
+    }
+
+    if (giftPath && req.method === "DELETE") {
+      if (!(await giftsOpen())) return reply(403, { error: "O registro de presentes ainda não está aberto." });
+      const { error } = await db.from("ninho_gifts").delete().eq("id", giftPath[1]);
+      if (error) throw error;
+      return reply(200, { ok: true });
     }
 
     if (path === "/api/event" && req.method === "PUT") {
