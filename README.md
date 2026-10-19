@@ -9,6 +9,7 @@ Aplicativo para organizar o chá e a chegada de Anya. Usa identidade violeta, o 
 - Copiar um link exclusivo ou abrir uma mensagem pronta para envio pelo WhatsApp.
 - Receber RSVP por convidado, incluindo acompanhantes, sem exigir login de quem recebeu o convite.
 - Acompanhar totais de presença, exportar convidados para CSV e atualizar os 53 itens do checklist.
+- Marcar agora itens como “Temos” ou “Vamos ganhar”; ambos deixam de aparecer na lista pública. Só o registro de entrega por pessoa abre após o chá.
 - Após o dia do chá, registrar manualmente os presentes recebidos, associá-los ao enxoval e ao convidado, publicar recados autorizados no mural e preparar agradecimentos ou lembranças digitais para envio pessoal. Não há pagamentos.
 
 ## Produção
