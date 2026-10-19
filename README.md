@@ -9,6 +9,7 @@ Aplicativo para organizar o chá e a chegada de Anya. Usa identidade violeta, o 
 - Copiar um link exclusivo ou abrir uma mensagem pronta para envio pelo WhatsApp.
 - Receber RSVP por convidado, incluindo acompanhantes, sem exigir login de quem recebeu o convite.
 - Acompanhar totais de presença, exportar convidados para CSV e atualizar os 53 itens do checklist.
+- Após o dia do chá, registrar manualmente os presentes recebidos, associá-los ao enxoval e ao convidado, publicar recados autorizados no mural e preparar agradecimentos ou lembranças digitais para envio pessoal. Não há pagamentos.
 
 ## Produção
 
@@ -37,6 +38,8 @@ Abra `http://localhost:4173`. Nesse modo, o servidor local salva os dados em `da
 - `POST /api/guests` e `PATCH /api/guests/:id` — cadastro/edição (painel autenticado).
 - `GET /api/invite/:token` e `POST /api/rsvp/:token` — convite individual e RSVP público.
 - `PATCH /api/checklist/:id` — atualiza o checklist (painel autenticado).
+- `GET /api/public-checklist` — itens que ainda não estão em “Temos”.
+- `GET /api/mural` — recados autorizados pelos pais, apenas após o dia do evento.
+- `POST /api/gifts`, `PATCH /api/gifts/:id`, `DELETE /api/gifts/:id` — registros manuais após o evento, protegidos pela senha administrativa.
 
 Identidade visual: Anya em violeta. A logo oficial é Lá vem cegonha.
-
