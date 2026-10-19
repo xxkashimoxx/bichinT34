@@ -123,3 +123,14 @@ body{background:radial-gradient(ellipse at 12% 0,#eee0fa 0,transparent 36%),#fcf
 .gift-catalog-items a small{display:block;color:var(--muted);margin-top:3px}
 .gift-catalog-items a>span:last-child{color:var(--accent-ink);font-size:11px;white-space:nowrap;font-weight:700}
 @media(max-width:560px){.check-item{flex-wrap:wrap}.check-actions{margin-left:auto}.gift-catalog-items a{align-items:flex-start}}
+.gift-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:24px 0;padding:22px;border:1px solid var(--line);border-radius:16px;background:var(--paper)}
+.gift-form label{display:grid;gap:7px;font-size:12px;font-weight:700;color:var(--accent-ink)}
+.gift-form input,.gift-form select,.gift-form textarea{width:100%;min-height:44px;padding:10px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink);font-size:14px}
+.gift-form .gift-full{grid-column:1/-1}
+.gift-form .gift-consent{display:flex;align-items:center;gap:10px;line-height:1.4}
+.gift-form .gift-consent input{width:20px;min-height:20px;flex:none;accent-color:var(--accent)}
+.gift-form .button{justify-self:start}
+.gift-records{margin:26px 0}.gift-records h2{font:600 23px 'Playfair Display',serif}
+.gift-record{padding:16px 0;border-top:1px solid var(--line);display:grid;gap:12px}.gift-record strong,.gift-record .subtext{display:block}.gift-record p{font-size:13px;margin:10px 0 0}.gift-record-actions{display:flex;flex-wrap:wrap;gap:8px}
+.gift-mural{margin-top:20px}.gift-mural blockquote{margin:14px 0 0;border-left:3px solid var(--accent);padding:10px 16px;background:var(--paper);border-radius:8px}.gift-mural blockquote p{margin:0 0 7px;white-space:pre-wrap}.gift-mural blockquote footer{font-size:12px;color:var(--accent-ink)}
+@media(max-width:560px){.gift-form{grid-template-columns:1fr;padding:17px}.gift-form .button{width:100%}.gift-record-actions .button{flex:1 1 130px}}
