@@ -196,7 +196,7 @@ Deno.serve(async (req: Request) => {
     if (path === "/api/public-checklist" && req.method === "GET") {
       const { data, error } = await db.from("ninho_checklist")
         .select("id,priority,category,icon,name,quantity")
-        .neq("status", "have")
+        .in("status", ["", "missing"])
         .order("priority").order("category").order("name");
       if (error) throw error;
       return reply(200, { checklist: data });
@@ -333,7 +333,7 @@ Deno.serve(async (req: Request) => {
     const checkPath = path.match(/^\/api\/checklist\/([\w-]+)$/);
     if (checkPath && req.method === "PATCH") {
       const body = await jsonBody(req);
-      if (!['', 'have', 'missing'].includes(body?.status)) return reply(400, { error: "Status inválido." });
+      if (!['', 'have', 'missing', 'expected'].includes(body?.status)) return reply(400, { error: "Status inválido." });
       const { data, error } = await db.from("ninho_checklist").update({ status: body.status }).eq("id", decodeURIComponent(checkPath[1])).select("*").maybeSingle();
       if (error) throw error;
       if (!data) return reply(404, { error: "Item não encontrado." });
