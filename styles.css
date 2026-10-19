@@ -134,3 +134,6 @@ body{background:radial-gradient(ellipse at 12% 0,#eee0fa 0,transparent 36%),#fcf
 .gift-record{padding:16px 0;border-top:1px solid var(--line);display:grid;gap:12px}.gift-record strong,.gift-record .subtext{display:block}.gift-record p{font-size:13px;margin:10px 0 0}.gift-record-actions{display:flex;flex-wrap:wrap;gap:8px}
 .gift-mural{margin-top:20px}.gift-mural blockquote{margin:14px 0 0;border-left:3px solid var(--accent);padding:10px 16px;background:var(--paper);border-radius:8px}.gift-mural blockquote p{margin:0 0 7px;white-space:pre-wrap}.gift-mural blockquote footer{font-size:12px;color:var(--accent-ink)}
 @media(max-width:560px){.gift-form{grid-template-columns:1fr;padding:17px}.gift-form .button{width:100%}.gift-record-actions .button{flex:1 1 130px}}
+.check-actions{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.check-action{white-space:nowrap}
+@media(max-width:560px){.check-actions{width:100%;justify-content:flex-start;margin-left:0}.filter-row{flex-wrap:wrap}}
