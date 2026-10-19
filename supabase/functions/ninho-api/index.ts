@@ -183,6 +183,15 @@ Deno.serve(async (req: Request) => {
       return reply(201, { guest: guestOut(data) });
     }
 
+    if (path === "/api/public-checklist" && req.method === "GET") {
+      const { data, error } = await db.from("ninho_checklist")
+        .select("id,priority,category,icon,name,quantity")
+        .neq("status", "have")
+        .order("priority").order("category").order("name");
+      if (error) throw error;
+      return reply(200, { checklist: data });
+    }
+
     if (!(await needAdmin(req))) return reply(401, { error: "Acesso administrativo necessário." });
 
     if (path === "/api/data" && req.method === "GET") {
