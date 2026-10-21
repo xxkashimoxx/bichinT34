@@ -11,10 +11,12 @@ Aplicativo para organizar o chá e a chegada de Anya. Usa identidade violeta, o 
 - Acompanhar totais de presença, exportar convidados para CSV e atualizar os 53 itens do checklist.
 - Marcar agora itens como “Temos” ou “Vamos ganhar”; ambos deixam de aparecer na lista pública. Só o registro de entrega por pessoa abre após o chá.
 - Após o dia do chá, registrar manualmente os presentes recebidos, associá-los ao enxoval e ao convidado, publicar recados autorizados no mural e preparar agradecimentos ou lembranças digitais para envio pessoal. Não há pagamentos.
+- Antes do evento, receber recados e dicas dos convidados. A família aprova, oculta ou exclui cada mensagem na aba Recados; só mensagens aprovadas aparecem publicamente.
+- Ver as próximas ações no painel e o progresso do enxoval em números e percentual. O convite tem um botão de confirmação de presença logo após a arte.
 
 ## Produção
 
-- Frontend estático publicado no Vercel, projeto `la-vem-cegonha`: https://la-vem-cegonha.vercel.app/. O endereço anterior `bichint34.vercel.app` permanece associado ao mesmo projeto.
+- Frontend estático publicado no Vercel, projeto `la-vem-cegonha`: https://anyachegou.vercel.app/.
 - Banco de dados Supabase dedicado `ninho-cha-bebe`, região `sa-east-1` (São Paulo).
 - A Edge Function `ninho-api` valida a senha do painel e mantém os dados administrativos privados; os links de RSVP usam tokens aleatórios individuais.
 - A chave `sb_publishable_...` inserida pelo `build.js` é pública e tem privilégios anon restritos. A chave de servidor fica somente no runtime Supabase.
@@ -40,6 +42,8 @@ Abra `http://localhost:4173`. Nesse modo, o servidor local salva os dados em `da
 - `GET /api/invite/:token` e `POST /api/rsvp/:token` — convite individual e RSVP público.
 - `PATCH /api/checklist/:id` — atualiza o checklist (painel autenticado).
 - `GET /api/public-checklist` — itens que ainda não estão em “Temos”.
+- `GET /api/public-messages` e `POST /api/public-messages` — leitura de recados aprovados e envio de novos recados para moderação.
+- `PATCH /api/messages/:id` e `DELETE /api/messages/:id` — aprovação, ocultação e exclusão no painel autenticado.
 - `GET /api/mural` — recados autorizados pelos pais, apenas após o dia do evento.
 - `POST /api/gifts`, `PATCH /api/gifts/:id`, `DELETE /api/gifts/:id` — registros manuais após o evento, protegidos pela senha administrativa.
 
