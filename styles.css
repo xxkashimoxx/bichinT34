@@ -172,3 +172,18 @@ body{background:radial-gradient(ellipse at 12% 0,#eee0fa 0,transparent 36%),#fcf
 .rsvp-extra input,.rsvp-extra select{width:100%;padding:12px;border-radius:12px;border:1px solid #d8c2e2;background:#fff;font:inherit}
 .route-panel p{overflow-wrap:anywhere}
 @media(max-width:600px){.gift-choice-actions>*{flex:1 1 100%;text-align:center}}
+.mural-hub{background:linear-gradient(135deg,#fff,#f5e9fb);text-align:center;padding:24px}
+.mural-hub h2{margin:8px 0}.mural-hub p{font-size:14px;line-height:1.5}
+.mural-links{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+.mural-links a{border-radius:12px;border:1px solid #a66bc2;background:#fff;color:#5d3482;padding:12px 16px;font-weight:700;text-decoration:none;min-height:44px}
+.mural-links a:hover,.mural-links a:focus-visible{background:#eee2f8}
+#recados,#palpites{scroll-margin-top:18px}
+.public-messages{margin:17px 0 23px}
+.public-messages blockquote{margin:10px 0;padding:14px 18px;border-left:3px solid #a66bc2;border-radius:8px;background:#faf4fd}
+.public-messages blockquote p{font-size:14px;line-height:1.5;color:#46364d}
+.public-messages blockquote footer{border:0;padding:0;justify-content:flex-end}
+.guess-panel .guess-instruction{border-radius:12px;background:#f7effa;padding:14px;font-size:13px}
+.guess-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;margin-top:14px}
+.guess-list>div{display:flex;justify-content:space-between;gap:8px;border:1px solid #e8dcef;border-radius:12px;padding:12px;background:#fcf9ff}
+.guess-list strong{color:#5d3482}
+@media(max-width:560px){.mural-links a{width:100%}.mural-hub{padding:20px}}

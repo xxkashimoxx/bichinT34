@@ -254,6 +254,13 @@ Deno.serve(async (req: Request) => {
     }
 
     const guess = path.match(/^\/api\/guess\/([a-f0-9]{48})$/);
+    if (path === "/api/public-guesses" && req.method === "GET") {
+      const { data, error, count } = await db.from("ninho_guesses")
+        .select("birth_date,weight_grams", { count: "exact" })
+        .order("updated_at", { ascending: false }).limit(12);
+      if (error) throw error;
+      return reply(200, { count: count || 0, guesses: data || [] });
+    }
     if (guess && req.method === "POST") {
       const body = await jsonBody(req);
       const birthDate = clean(body?.birthDate, 10), weight = Number(body?.weightGrams);

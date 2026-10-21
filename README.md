@@ -18,6 +18,7 @@ Aplicativo para organizar o chá e a chegada de Anya. Usa identidade violeta, o 
 - Cadastrar até cinco links de lojas e uma faixa de preço estimada por item. Itens sem faixa definida ficam no grupo próprio.
 - Ver rotas no Google Maps e Waze; a previsão da região de Guaratiba aparece quando o evento estiver no alcance da previsão de até 16 dias.
 - Enviar um palpite de nascimento e peso pelo convite individual. A família vê os palpites no painel.
+- O mural público reúne recados moderados e palpites sem nome; há um único botão de presença na página inicial e no convite individual.
 - Configurar um dress code opcional e uma chave PIX opcional; o PIX só aparece aos convidados quando chave e recebedor estão preenchidos. Não há confirmação automática de pagamento.
 
 ## Produção
