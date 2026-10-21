@@ -10,9 +10,15 @@ Aplicativo para organizar o chá e a chegada de Anya. Usa identidade violeta, o 
 - Receber RSVP por convidado, incluindo acompanhantes, sem exigir login de quem recebeu o convite.
 - Acompanhar totais de presença, exportar convidados para CSV e atualizar os 53 itens do checklist.
 - Marcar agora itens como “Temos” ou “Vamos ganhar”; ambos deixam de aparecer na lista pública. Só o registro de entrega por pessoa abre após o chá.
-- Após o dia do chá, registrar manualmente os presentes recebidos, associá-los ao enxoval e ao convidado, publicar recados autorizados no mural e preparar agradecimentos ou lembranças digitais para envio pessoal. Não há pagamentos.
+- Após o dia do chá, registrar manualmente os presentes recebidos, associá-los ao enxoval e ao convidado, publicar recados autorizados no mural e preparar agradecimentos ou lembranças digitais para envio pessoal. O site não processa pagamentos.
 - Antes do evento, receber recados e dicas dos convidados. A família aprova, oculta ou exclui cada mensagem na aba Recados; só mensagens aprovadas aparecem publicamente.
 - Ver as próximas ações no painel e o progresso do enxoval em números e percentual. O convite tem um botão de confirmação de presença logo após a arte.
+- Convidados podem informar acompanhantes, crianças e restrições alimentares no RSVP; os detalhes ficam no painel da família.
+- Reservar um item pelo convite individual e marcá-lo como comprado, evitando reservas simultâneas do mesmo item. A família gerencia as reservas no checklist.
+- Cadastrar até cinco links de lojas e uma faixa de preço estimada por item. Itens sem faixa definida ficam no grupo próprio.
+- Ver rotas no Google Maps e Waze; a previsão da região de Guaratiba aparece quando o evento estiver no alcance da previsão de até 16 dias.
+- Enviar um palpite de nascimento e peso pelo convite individual. A família vê os palpites no painel.
+- Configurar um dress code opcional e uma chave PIX opcional; o PIX só aparece aos convidados quando chave e recebedor estão preenchidos. Não há confirmação automática de pagamento.
 
 ## Produção
 

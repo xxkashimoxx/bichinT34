@@ -160,3 +160,15 @@ body{background:radial-gradient(ellipse at 12% 0,#eee0fa 0,transparent 36%),#fcf
 .message-admin-card{display:flex;justify-content:space-between;gap:15px}.message-admin-card strong,.message-admin-card small{display:block}.message-admin-card p{margin:10px 0 0}.message-admin-actions{display:flex;gap:8px;align-items:flex-start}
 @media(max-width:750px){.next-actions-grid{grid-template-columns:1fr}.next-actions-grid button{min-height:140px}.message-admin-card{flex-direction:column}.message-admin-actions{align-self:flex-start}}
 @media(max-width:560px){.message-form .button{width:100%}.poster-rsvp-jump{margin-top:9px}}
+.gift-choice{padding:16px;border:1px solid rgba(91,47,119,.16);border-radius:16px;background:#fff;margin:10px 0}
+.gift-choice strong,.gift-choice small{display:block}
+.gift-choice small{margin:4px 0 12px;color:#665b70}
+.gift-choice-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:10px}
+.gift-choice-actions a,.gift-choice-actions button{display:inline-block;border:1px solid #75418f;background:#f8f1fa;color:#542568;padding:10px 13px;border-radius:12px;font:inherit;font-weight:700;text-decoration:none;cursor:pointer;min-height:44px}
+.gift-choice-actions button{background:#713a8d;color:white}
+.gift-choice-actions button:disabled{opacity:.5}
+.rsvp-extra{display:grid;gap:12px;margin:14px 0}
+.rsvp-extra label{display:grid;gap:6px;font-weight:600;text-align:left}
+.rsvp-extra input,.rsvp-extra select{width:100%;padding:12px;border-radius:12px;border:1px solid #d8c2e2;background:#fff;font:inherit}
+.route-panel p{overflow-wrap:anywhere}
+@media(max-width:600px){.gift-choice-actions>*{flex:1 1 100%;text-align:center}}

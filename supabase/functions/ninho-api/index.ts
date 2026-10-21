@@ -72,6 +72,11 @@ function eventOut(row: Record<string, unknown>) {
     giftUrl: row.gift_url || "",
     photosUrl: row.photos_url || "",
     musicUrl: row.music_url || "",
+    dressCode: row.dress_code || "",
+    pixKey: row.pix_key || "",
+    pixRecipient: row.pix_recipient || "",
+    weatherLat: row.weather_lat ?? "",
+    weatherLon: row.weather_lon ?? "",
   };
 }
 
@@ -84,6 +89,8 @@ function guestOut(row: Record<string, unknown>) {
     note: row.note || "",
     status: row.status,
     partySize: row.party_size || 1,
+    bringingChild: row.bringing_child ?? null,
+    dietaryRestriction: row.dietary_restriction || "",
     createdAt: row.created_at,
     respondedAt: row.responded_at || "",
   };
@@ -141,13 +148,22 @@ Deno.serve(async (req: Request) => {
     }
 
     const publicInvite = path.match(/^\/api\/invite\/([a-f0-9]{48})$/);
+    if (path === "/api/public-event" && req.method === "GET") {
+      const { data, error } = await db.from("ninho_event").select("event_date,event_time,address,map_url,dress_code,weather_lat,weather_lon,pix_key,pix_recipient").eq("id", 1).single();
+      if (error) throw error;
+      return reply(200, { event: eventOut(data) });
+    }
     if (publicInvite && req.method === "GET") {
       const { data: guest, error: guestError } = await db.from("ninho_guests").select("*").eq("token", publicInvite[1]).maybeSingle();
       if (guestError) throw guestError;
       if (!guest) return reply(404, { error: "Convite não encontrado." });
       const { data: event, error: eventError } = await db.from("ninho_event").select("*").eq("id", 1).single();
       if (eventError) throw eventError;
-      return reply(200, { guest: guestOut(guest), event: eventOut(event) });
+      const [{ data: reserved }, { data: guess }] = await Promise.all([
+        db.from("ninho_checklist").select("id,name,status").eq("reserved_by", guest.id),
+        db.from("ninho_guesses").select("birth_date,weight_grams").eq("guest_id", guest.id).maybeSingle(),
+      ]);
+      return reply(200, { guest: guestOut(guest), event: eventOut(event), reserved: reserved || [], guess });
     }
 
     const invitePage = path.match(/^\/invite\/([a-f0-9]{48})$/);
@@ -161,10 +177,14 @@ Deno.serve(async (req: Request) => {
       if (!['yes', 'no', 'pending'].includes(body?.status)) return reply(400, { error: "Selecione uma resposta válida." });
       const partySize = Number(body?.partySize || 1);
       if (!Number.isInteger(partySize) || partySize < 1 || partySize > 8) return reply(400, { error: "Número de pessoas inválido." });
+      const dietaryRestriction = clean(body?.dietaryRestriction, 180);
+      const bringingChild = body?.bringingChild === true ? true : body?.bringingChild === false ? false : null;
       const { data, error } = await db.from("ninho_guests").update({
         status: body.status,
         party_size: body.status === "yes" ? partySize : 1,
         responded_at: body.status === "pending" ? null : new Date().toISOString(),
+        dietary_restriction: body.status === "yes" ? dietaryRestriction : "",
+        bringing_child: body.status === "yes" ? bringingChild : null,
       }).eq("token", rsvp[1]).select("*").maybeSingle();
       if (error) throw error;
       if (!data) return reply(404, { error: "Convite não encontrado." });
@@ -179,6 +199,8 @@ Deno.serve(async (req: Request) => {
       if (name.length < 2) return reply(400, { error: "Informe seu nome para confirmar." });
       if (!['yes', 'no'].includes(status)) return reply(400, { error: "Escolha uma resposta." });
       if (!Number.isInteger(partySize) || partySize < 1 || partySize > 8) return reply(400, { error: "Selecione de 1 a 8 pessoas." });
+      const dietaryRestriction = clean(body?.dietaryRestriction, 180);
+      const bringingChild = body?.bringingChild === true ? true : body?.bringingChild === false ? false : null;
       const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
       const now = Date.now();
       const recent = publicSubmissions.get(ip);
@@ -189,6 +211,8 @@ Deno.serve(async (req: Request) => {
         name, status, party_size: status === "yes" ? partySize : 1,
         responded_at: new Date().toISOString(),
         note: "Resposta pelo convite público",
+        dietary_restriction: status === "yes" ? dietaryRestriction : "",
+        bringing_child: status === "yes" ? bringingChild : null,
       }).select("*").single();
       if (error) throw error;
       return reply(201, { guest: guestOut(data) });
@@ -196,11 +220,50 @@ Deno.serve(async (req: Request) => {
 
     if (path === "/api/public-checklist" && req.method === "GET") {
       const { data, error } = await db.from("ninho_checklist")
-        .select("id,priority,category,icon,name,quantity")
+        .select("id,priority,category,icon,name,quantity,shop_links,price_band")
         .in("status", ["", "missing"])
         .order("priority").order("category").order("name");
       if (error) throw error;
       return reply(200, { checklist: data });
+    }
+
+    const reserve = path.match(/^\/api\/reserve\/([\w-]+)$/);
+    if (reserve && req.method === "POST") {
+      const body = await jsonBody(req);
+      const token = clean(body?.token, 48);
+      if (!/^[a-f0-9]{48}$/.test(token)) return reply(400, { error: "Abra o seu convite individual para escolher um item." });
+      const { data: guest, error: guestError } = await db.from("ninho_guests").select("id").eq("token", token).maybeSingle();
+      if (guestError) throw guestError;
+      if (!guest) return reply(404, { error: "Convite não encontrado." });
+      const { data: claimed, error } = await db.rpc("ninho_reserve_item", { p_item_id: reserve[1], p_guest_id: guest.id });
+      if (error) throw error;
+      if (!claimed) return reply(409, { error: "Este item já saiu da lista. Atualize para escolher outro." });
+      return reply(200, { ok: true });
+    }
+
+    const purchase = path.match(/^\/api\/purchase\/([\w-]+)$/);
+    if (purchase && req.method === "POST") {
+      const token = clean((await jsonBody(req))?.token, 48);
+      const { data: guest } = await db.from("ninho_guests").select("id").eq("token", token).maybeSingle();
+      if (!guest) return reply(404, { error: "Convite não encontrado." });
+      const { data: item, error } = await db.from("ninho_checklist").update({ status: "purchased" })
+        .eq("id", purchase[1]).eq("reserved_by", guest.id).eq("status", "reserved").select("id").maybeSingle();
+      if (error) throw error;
+      if (!item) return reply(409, { error: "Reserva indisponível ou já marcada." });
+      return reply(200, { ok: true });
+    }
+
+    const guess = path.match(/^\/api\/guess\/([a-f0-9]{48})$/);
+    if (guess && req.method === "POST") {
+      const body = await jsonBody(req);
+      const birthDate = clean(body?.birthDate, 10), weight = Number(body?.weightGrams);
+      if (birthDate && (!/^\d{4}-\d{2}-\d{2}$/.test(birthDate) || Number.isNaN(Date.parse(birthDate)))) return reply(400, { error: "Data inválida." });
+      if (!Number.isInteger(weight) || weight < 500 || weight > 7000) return reply(400, { error: "Informe peso entre 500 g e 7000 g." });
+      const { data: guest } = await db.from("ninho_guests").select("id").eq("token", guess[1]).maybeSingle();
+      if (!guest) return reply(404, { error: "Convite não encontrado." });
+      const { error } = await db.from("ninho_guesses").upsert({ guest_id: guest.id, birth_date: birthDate || null, weight_grams: weight, updated_at: new Date().toISOString() }, { onConflict: "guest_id" });
+      if (error) throw error;
+      return reply(200, { ok: true });
     }
 
     if (path === "/api/public-messages" && req.method === "GET") {
@@ -249,19 +312,21 @@ Deno.serve(async (req: Request) => {
     if (!(await needAdmin(req))) return reply(401, { error: "Acesso administrativo necessário." });
 
     if (path === "/api/data" && req.method === "GET") {
-      const [eventResult, guestResult, checklistResult, giftsResult, messagesResult] = await Promise.all([
+      const [eventResult, guestResult, checklistResult, giftsResult, messagesResult, guessesResult] = await Promise.all([
         db.from("ninho_event").select("*").eq("id", 1).single(),
         db.from("ninho_guests").select("*").order("created_at", { ascending: true }),
         db.from("ninho_checklist").select("*").order("priority").order("category").order("name"),
         db.from("ninho_gifts").select("*").order("created_at", { ascending: false }),
         db.from("ninho_messages").select("*").order("created_at", { ascending: false }),
+        db.from("ninho_guesses").select("guest_id,birth_date,weight_grams,updated_at").order("updated_at", { ascending: false }),
       ]);
       if (eventResult.error) throw eventResult.error;
       if (guestResult.error) throw guestResult.error;
       if (checklistResult.error) throw checklistResult.error;
       if (giftsResult.error) throw giftsResult.error;
       if (messagesResult.error) throw messagesResult.error;
-      return reply(200, { event: eventOut(eventResult.data), guests: guestResult.data.map(guestOut), checklist: checklistResult.data, gifts: giftsResult.data, messages: messagesResult.data, giftsOpen: await giftsOpen() });
+      if (guessesResult.error) throw guessesResult.error;
+      return reply(200, { event: eventOut(eventResult.data), guests: guestResult.data.map(guestOut), checklist: checklistResult.data, gifts: giftsResult.data, messages: messagesResult.data, guesses: guessesResult.data, giftsOpen: await giftsOpen() });
     }
 
     const messagePath = path.match(/^\/api\/messages\/([a-f0-9-]{36})$/);
@@ -338,6 +403,9 @@ Deno.serve(async (req: Request) => {
       if (baby !== "Anya") return reply(400, { error: "O projeto está configurado exclusivamente para Anya." });
       if (body?.date && !/^\d{4}-\d{2}-\d{2}$/.test(body.date)) return reply(400, { error: "Data inválida." });
       if (body?.time && !/^\d{2}:\d{2}$/.test(body.time)) return reply(400, { error: "Horário inválido." });
+      const latitude = body?.weatherLat === '' || body?.weatherLat == null ? null : Number(body.weatherLat);
+      const longitude = body?.weatherLon === '' || body?.weatherLon == null ? null : Number(body.weatherLon);
+      if ((latitude === null) !== (longitude === null) || (latitude !== null && (!Number.isFinite(latitude) || latitude < -90 || latitude > 90 || !Number.isFinite(longitude) || longitude! < -180 || longitude! > 180))) return reply(400, { error: "Coordenadas inválidas." });
       const links: Record<string, string> = {};
       for (const [field, label] of [["mapUrl", "mapa"], ["giftUrl", "lista de presentes"], ["photosUrl", "fotos"], ["musicUrl", "música"]]) {
         const value = clean(body?.[field], 500);
@@ -357,6 +425,11 @@ Deno.serve(async (req: Request) => {
         gift_url: links.giftUrl,
         photos_url: links.photosUrl,
         music_url: links.musicUrl,
+        dress_code: clean(body?.dressCode, 120),
+        pix_key: clean(body?.pixKey, 120),
+        pix_recipient: clean(body?.pixRecipient, 100),
+        weather_lat: latitude,
+        weather_lon: longitude,
       }).eq("id", 1).select("*").single();
       if (error) throw error;
       return reply(200, { event: eventOut(data) });
@@ -383,10 +456,26 @@ Deno.serve(async (req: Request) => {
     }
 
     const checkPath = path.match(/^\/api\/checklist\/([\w-]+)$/);
+    const shopPath = path.match(/^\/api\/checklist\/([\w-]+)\/shops$/);
+    if (shopPath && req.method === "PUT") {
+      const body = await jsonBody(req);
+      if (!Array.isArray(body?.links) || body.links.length > 5 || !['','ate50','50a100','100a200','acima200'].includes(body?.priceBand)) return reply(400, { error: "Confira as lojas e a faixa de preço." });
+      const links = [];
+      for (const entry of body.links) {
+        const label = clean(entry?.label, 60), url = clean(entry?.url, 500);
+        try { if (!label || !['http:', 'https:'].includes(new URL(url).protocol)) throw new Error(); }
+        catch { return reply(400, { error: "Cada loja precisa de nome e link HTTPS válido." }); }
+        links.push({ label, url });
+      }
+      const { data: item, error } = await db.from("ninho_checklist").update({ shop_links: links, price_band: body.priceBand }).eq("id", shopPath[1]).select("*").maybeSingle();
+      if (error) throw error;
+      if (!item) return reply(404, { error: "Item não encontrado." });
+      return reply(200, { item });
+    }
     if (checkPath && req.method === "PATCH") {
       const body = await jsonBody(req);
-      if (!['', 'have', 'missing', 'expected'].includes(body?.status)) return reply(400, { error: "Status inválido." });
-      const { data, error } = await db.from("ninho_checklist").update({ status: body.status }).eq("id", decodeURIComponent(checkPath[1])).select("*").maybeSingle();
+      if (!['', 'have', 'missing', 'expected', 'purchased'].includes(body?.status)) return reply(400, { error: "Status inválido." });
+      const { data, error } = await db.from("ninho_checklist").update({ status: body.status, reserved_by: null }).eq("id", decodeURIComponent(checkPath[1])).select("*").maybeSingle();
       if (error) throw error;
       if (!data) return reply(404, { error: "Item não encontrado." });
       return reply(200, { item: data });
