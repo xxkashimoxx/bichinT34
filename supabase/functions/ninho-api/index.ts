@@ -475,7 +475,8 @@ Deno.serve(async (req: Request) => {
     if (checkPath && req.method === "PATCH") {
       const body = await jsonBody(req);
       if (!['', 'have', 'missing', 'expected', 'purchased'].includes(body?.status)) return reply(400, { error: "Status inválido." });
-      const { data, error } = await db.from("ninho_checklist").update({ status: body.status, reserved_by: null }).eq("id", decodeURIComponent(checkPath[1])).select("*").maybeSingle();
+      const updates = body.status === "purchased" ? { status: body.status } : { status: body.status, reserved_by: null };
+      const { data, error } = await db.from("ninho_checklist").update(updates).eq("id", decodeURIComponent(checkPath[1])).select("*").maybeSingle();
       if (error) throw error;
       if (!data) return reply(404, { error: "Item não encontrado." });
       return reply(200, { item: data });
