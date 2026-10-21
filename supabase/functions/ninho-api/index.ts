@@ -14,6 +14,7 @@ const cors = {
 };
 const attempts = new Map<string, { count: number; reset: number }>();
 const publicSubmissions = new Map<string, { count: number; reset: number }>();
+const messageSubmissions = new Map<string, { count: number; reset: number }>();
 
 function reply(status: number, value: unknown) {
   return new Response(JSON.stringify(value), {
@@ -202,6 +203,39 @@ Deno.serve(async (req: Request) => {
       return reply(200, { checklist: data });
     }
 
+    if (path === "/api/public-messages" && req.method === "GET") {
+      const { data, error } = await db.from("ninho_messages")
+        .select("author_name,message,created_at")
+        .eq("approved", true).order("created_at", { ascending: false }).limit(60);
+      if (error) throw error;
+      return reply(200, { messages: data });
+    }
+
+    if (path === "/api/public-messages" && req.method === "POST") {
+      const body = await jsonBody(req);
+      const message = clean(body?.message, 500);
+      let authorName = clean(body?.name, 90);
+      let guestId: string | null = null;
+      if (body?.token) {
+        if (typeof body.token !== "string" || !/^[a-f0-9]{48}$/.test(body.token)) return reply(400, { error: "Convite inválido." });
+        const { data: guest, error } = await db.from("ninho_guests").select("id,name").eq("token", body.token).maybeSingle();
+        if (error) throw error;
+        if (!guest) return reply(404, { error: "Convite não encontrado." });
+        authorName = guest.name;
+        guestId = guest.id;
+      }
+      if (authorName.length < 2 || message.length < 3) return reply(400, { error: "Informe seu nome e um recado com pelo menos 3 caracteres." });
+      const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+      const now = Date.now();
+      const recent = messageSubmissions.get(ip);
+      if (recent && recent.reset > now && recent.count >= 3) return reply(429, { error: "Muitos recados enviados. Tente novamente mais tarde." });
+      if (!recent || recent.reset <= now) messageSubmissions.set(ip, { count: 1, reset: now + 15 * 60 * 1000 });
+      else messageSubmissions.set(ip, { count: recent.count + 1, reset: recent.reset });
+      const { error } = await db.from("ninho_messages").insert({ guest_id: guestId, author_name: authorName, message });
+      if (error) throw error;
+      return reply(201, { ok: true, moderation: "pending" });
+    }
+
     if (path === "/api/mural" && req.method === "GET") {
       if (!(await giftsOpen())) return reply(200, { messages: [] });
       const { data, error } = await db.from("ninho_gifts")
@@ -215,17 +249,35 @@ Deno.serve(async (req: Request) => {
     if (!(await needAdmin(req))) return reply(401, { error: "Acesso administrativo necessário." });
 
     if (path === "/api/data" && req.method === "GET") {
-      const [eventResult, guestResult, checklistResult, giftsResult] = await Promise.all([
+      const [eventResult, guestResult, checklistResult, giftsResult, messagesResult] = await Promise.all([
         db.from("ninho_event").select("*").eq("id", 1).single(),
         db.from("ninho_guests").select("*").order("created_at", { ascending: true }),
         db.from("ninho_checklist").select("*").order("priority").order("category").order("name"),
         db.from("ninho_gifts").select("*").order("created_at", { ascending: false }),
+        db.from("ninho_messages").select("*").order("created_at", { ascending: false }),
       ]);
       if (eventResult.error) throw eventResult.error;
       if (guestResult.error) throw guestResult.error;
       if (checklistResult.error) throw checklistResult.error;
       if (giftsResult.error) throw giftsResult.error;
-      return reply(200, { event: eventOut(eventResult.data), guests: guestResult.data.map(guestOut), checklist: checklistResult.data, gifts: giftsResult.data, giftsOpen: await giftsOpen() });
+      if (messagesResult.error) throw messagesResult.error;
+      return reply(200, { event: eventOut(eventResult.data), guests: guestResult.data.map(guestOut), checklist: checklistResult.data, gifts: giftsResult.data, messages: messagesResult.data, giftsOpen: await giftsOpen() });
+    }
+
+    const messagePath = path.match(/^\/api\/messages\/([a-f0-9-]{36})$/);
+    if (messagePath && req.method === "PATCH") {
+      const body = await jsonBody(req);
+      if (typeof body?.approved !== "boolean") return reply(400, { error: "Selecione se o recado deve aparecer no site." });
+      const { data, error } = await db.from("ninho_messages").update({ approved: body.approved }).eq("id", messagePath[1]).select("*").maybeSingle();
+      if (error) throw error;
+      if (!data) return reply(404, { error: "Recado não encontrado." });
+      return reply(200, { message: data });
+    }
+
+    if (messagePath && req.method === "DELETE") {
+      const { error } = await db.from("ninho_messages").delete().eq("id", messagePath[1]);
+      if (error) throw error;
+      return reply(200, { ok: true });
     }
 
     if (path === "/api/gifts" && req.method === "POST") {
